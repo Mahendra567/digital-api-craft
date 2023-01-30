@@ -4,15 +4,15 @@ const port=3000;
 const axios = require('axios');
 const moment = require('moment');
 const fs = require('fs');
-const os=require('os');
-const cluster = require('cluster');
-const { Worker } = require("worker_threads");
-
+// const os=require('os');
+// const cluster = require('cluster');
+// const { Worker } = require("worker_threads");
 
 
 app.get('/wordOccurence',async (req,res)=> {
    try {
-    /** Create seprate thread for this API - will do later */
+    /** Create seprate thread for this API  - */
+    
     let results = await readFile();
     res.json(results)
    } catch (error) {
@@ -66,25 +66,27 @@ function getName(obj) {
 
 
 
-/** Cluster */
-if(cluster.isMaster){
- console.log(`Master is running on ${process.pid}`)
- for(let i = 0 ; i < os.cpus().length;i++){
-    cluster.fork()
- }
- cluster.on('exit',()=>{
-    console.log("One worker destroyed!")
-    cluster.fork()
- })
-} else {
-    app.listen(port,()=>{
-        console.log(`Server is running on port ${port}`);
-    })
-}
-
-//  app.listen(port,()=>{
+/**  Cluster implementation  */
+// if(cluster.isMaster){
+//  console.log(`Master is running on ${process.pid}`)
+//  for(let i = 0 ; i < os.cpus().length;i++){
+//     cluster.fork()
+//  }
+//  cluster.on('exit',()=>{
+//     console.log("One worker destroyed!")
+//     cluster.fork()
+//  })
+// } else {
+//     app.listen(port,()=>{
 //         console.log(`Server is running on port ${port}`);
 //     })
+// }
+
+
+
+ app.listen(port,()=>{
+        console.log(`Server is running on port ${port}`);
+    })
 
 
 
