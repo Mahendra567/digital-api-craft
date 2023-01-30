@@ -8,11 +8,13 @@ const fs = require('fs');
 // const cluster = require('cluster');
 // const { Worker } = require("worker_threads");
 
-
+/*********************************************************************
+ *       To get top 10 word - > order by word occurrences            *
+ *********************************************************************/
 app.get('/wordOccurence',async (req,res)=> {
    try {
-    /** Create seprate thread for this API  - */
-    
+    /** Create separate thread for this API  - */
+
     let results = await readFile();
     res.json(results)
    } catch (error) {
@@ -23,7 +25,6 @@ app.get('/wordOccurence',async (req,res)=> {
 async function readFile() {
    const { data } =  await axios.get(`http://norvig.com/big.txt`);
    const words = data.replace(/[^a-zA-Z ]/g, " ").split(" ").filter(Boolean);
-     //const uniquWords = Array.from(new Set(words));
  let results = {};
  for( let i = 0 ; i < words.length; i++ ) {
         let text = words[i].toLowerCase();
@@ -33,7 +34,7 @@ async function readFile() {
              results[text] = 1;
         }
  }
- /*** Get top 10 word -> order by word occurences */
+ /*** Get top 10 word -> order by word occurrences */
  let resObj = {};
  Object.entries(results).sort((a,b)=>b[1]-a[1]).slice(0,10).forEach(e=>resObj[e[0]]=e[1] );
  return resObj;
