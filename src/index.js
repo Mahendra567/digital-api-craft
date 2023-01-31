@@ -54,8 +54,8 @@ app.get("/users",async(req,res)=>{
 })
 /** Function to filter user's required information */
 async function getUserList() {
-    let res = await axios.get(`https://randomuser.me/api/?results=10`);
-    let users = res.data.results.map(e=> {return { name : getName(e.name),DOB : moment(e.dob.date).format('YYYY-MM-DD'),email:e.email}})
+    let { data } = await axios.get(`https://randomuser.me/api/?results=10`);
+    let users = data.results.map(e=> {return { name : getName(e.name),DOB : moment(e.dob.date).format('YYYY-MM-DD'),email:e.email}})
     return users;
 }
 /********* To get names ******/
@@ -68,6 +68,7 @@ function getName(obj) {
 
 
 /**  Cluster implementation  */
+
 // if(cluster.isMaster){
 //  console.log(`Master is running on ${process.pid}`)
 //  for(let i = 0 ; i < os.cpus().length;i++){
